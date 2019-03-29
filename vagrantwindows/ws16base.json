@@ -1,0 +1,41 @@
+{
+    "builders": [
+        {
+          "boot_wait": "6m",
+          "communicator": "winrm",
+          "cpus": 4,
+          "disk_size": "32768",
+          "floppy_files": [
+            "./answer_files/autounattend.xml",
+            "./scripts/fixnetwork.ps1",
+            "./scripts/enable-winrm.ps1"
+          ],
+          "guest_os_type": "Windows2016_64",
+          "guest_additions_mode": "disable",
+          "iso_checksum": "70721288bbcdfe3239d8f8c0fae55f1f",
+          "iso_checksum_type": "md5",
+          "iso_url": "/home/fedora/Downloads/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+          "memory": 2048,
+          "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+          "type": "virtualbox-iso",
+          "vm_name": "packer-ws16base",
+          "winrm_password": "vagrant",
+          "winrm_timeout": "4h",
+          "winrm_username": "vagrant",
+          "vboxmanage": [
+            [
+              "modifyvm", "{{.Name}}", "--natpf1", "guestwinrm,tcp,127.0.0.1,5985,,5985"
+            ]
+          ]
+        }
+    ],
+    "post-processors": [
+        {
+          "type": "vagrant",
+          "keep_input_artifact": false,
+          "output": "ws16base.box",
+          "vagrantfile_template": "vagrantfile-windows_2016.template"
+        }
+      ]
+    }
+    
