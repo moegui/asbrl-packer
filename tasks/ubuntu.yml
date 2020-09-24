@@ -1,0 +1,11 @@
+---
+
+- name: Include AWS variables
+  include_vars: aws.yml
+
+- name: Include Ubuntu variables
+  include_vars: ubuntu.yml
+
+- name: Build Packer
+  include_tasks: packer.yml
+

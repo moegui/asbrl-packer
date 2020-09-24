@@ -1,0 +1,44 @@
+{
+    "builders": [
+{% if PACKER_BUILDER == "amazon-ebs"  %}
+        {
+          "type": "{{ PACKER_BUILDER }}",
+          "source_ami_filter": {
+            "filters": {
+                "virtualization-type": "{{ AWS_AMI_FILTERS.VIRTUALIZATION }}",
+                "architecture": "{{ AWS_AMI_FILTERS.ARCHITECTURE }}",
+                "name": "{{ AWS_AMI_FILTERS.NAME }}",
+                "root-device-type": "{{ AWS_AMI_FILTERS.ROOT_DEVICE_TYPE }}"
+            },
+            "owners": {{ AWS_AMI_FILTERS.OWNERS }},
+            "most_recent": {{ AWS_AMI_FILTERS.MOST_RECENT }}
+            },
+          "region": "{{ AWS_REGION }}",
+          "instance_type": "{{ AWS_INSTANCE_TYPE }}",
+          "force_deregister": {{ AWS_AMI_DEREGISTER }},
+          "force_delete_snapshot": {{ AWS_AMI_DELETE_SNAP }},
+          "ssh_username": "{{ SSH_USERNAME}}",          
+          "launch_block_device_mappings": [
+            {
+              "device_name": "{{ AWS_BLOCK_DEVICES.DEVICE_NAME }}",
+              "volume_size": "{{ AWS_BLOCK_DEVICES.VOLUME_SIZE }}",
+              "volume_type": "{{ AWS_BLOCK_DEVICES.VOLUME_TYPE }}",
+              "delete_on_termination": {{ AWS_BLOCK_DEVICES.DELETE_ON_TERMINATION }}
+            }
+          ],
+          "ami_name": "{{ AWS_AMI_NAME }}",
+          "ami_description": "{{ AWS_AMI_DESCRIPTION }}",
+          "ami_users": {{ AWS_AMI_USERS }}
+        }
+{% endif %}
+      ],
+    "provisioners": [  {
+        "type": "ansible",
+        "playbook_file": "{{ ANSIBLE_PLAYBOOK }}",
+        "extra_arguments": [
+          "--extra-vars", "default_user={{ SSH_USERNAME}}" ]
+{% if ANSIBLE_GALAXY.ENABLE %}
+        ,"galaxy_file" : "{{ ANSIBLE_GALAXY.FILE }}"
+{% endif %}
+      }]
+  }

@@ -1,1 +1,9 @@
 ---
+ANSIBLE_PLAYBOOK: "playbook.yml"
+ANSIBLE_GALAXY:
+  ENABLE: false
+  FILE: "./requirements.yml"
+HASHICORP_APP: "packer"
+HASHICORP_RELEASES: "https://releases.hashicorp.com"
+PACKER_VERSION: "1.6.2"
+PACKER_BUILDER: "amazon-ebs"
