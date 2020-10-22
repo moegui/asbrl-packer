@@ -34,9 +34,10 @@
       ],
     "provisioners": [  {
         "type": "ansible",
+        "user": "ec2-user",
         "playbook_file": "{{ ANSIBLE_PLAYBOOK }}",
         "extra_arguments": [
-          "--extra-vars", "default_user={{ SSH_USERNAME}}" ]
+          "--extra-vars", "default_user={{ SSH_USERNAME }}" ]
 {% if ANSIBLE_GALAXY.ENABLE %}
         ,"galaxy_file" : "{{ ANSIBLE_GALAXY.FILE }}"
 {% endif %}
