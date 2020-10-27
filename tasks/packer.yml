@@ -3,16 +3,18 @@
   template:
     src: packer.json.j2
     dest: /tmp/packer.json
+    mode: 0644
 
 - name: Download Packer
   get_url:
-    url: https://releases.hashicorp.com/packer/{{PACKER_VERSION}}/packer_{{PACKER_VERSION}}_linux_amd64.zip
+    url: https://releases.hashicorp.com/packer/{{ PACKER_VERSION }}/packer_{{ PACKER_VERSION }}_linux_amd64.zip
     dest: /tmp/packer.zip
-    
+
 - name: Untar Packer
   unarchive:
     src: /tmp/packer.zip
-    dest: /tmp/ 
+    dest: /tmp/
+    mode: 0644
 
 - name: Execute Packer
   command: /tmp/packer build /tmp/packer.json
